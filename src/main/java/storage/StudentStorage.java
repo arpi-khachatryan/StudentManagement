@@ -145,29 +145,3 @@ public class StudentStorage {
     }
 }
 
-//        FileInputStream file = new FileInputStream(new File(fileLocation));
-//        Workbook workbook = new HSSFWorkbook(file);
-//        Sheet sheet = workbook.getSheetAt(0);
-//        int rowNum = sheet.getLastRowNum();
-//        int cellNum = sheet.getRow(1).getLastCellNum();
-//        for (int i = 0; i < rowNum; i++) {
-//            Row row = sheet.getRow(i);
-//            for (int j = 0; j < cellNum; j++) {
-//                Cell cell = row.getCell(j);
-//                switch (cell.getCellType()) {
-//                    case _NONE:
-//                        break;
-//                    case NUMERIC:
-//                        System.out.println(cell.getStringCellValue());
-//                        break;
-//                    case BOOLEAN:
-//                        System.out.println(cell.getBooleanCellValue());
-//                        break;
-//                    case STRING:
-//                        System.out.println(cell.getStringCellValue());
-//                        break;
-//                }
-//            }
-//            System.out.println();
-//        }
-
