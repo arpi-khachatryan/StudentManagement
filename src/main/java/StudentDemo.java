@@ -6,10 +6,14 @@ import model.Student;
 import model.User;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import storage.LessonStorage;
 import storage.StudentStorage;
 import storage.UserStorage;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Scanner;
@@ -123,6 +127,12 @@ public class StudentDemo implements Commands, UserCommands {
                 case PRINT_ALL_STUDENTS:
                     studentStorage.print();
                     break;
+                case DOWNLOAD_STUDENTS_EXCEL:
+                    downloadStudentsExcel();
+                    break;
+                case READING_FROM_EXCEL:
+                    readingFromExcel();
+                    break;
                 case PRINT_STUDENTS_COUNT:
                     System.out.println(studentStorage.getSize());
                     break;
@@ -141,14 +151,12 @@ public class StudentDemo implements Commands, UserCommands {
                 case PRINT_ALL_LESSONS:
                     lessonStorage.print();
                     break;
-                case DOWNLOAD_STUDENTS_EXCEL:
-                    downloadStudentsExcel();
-                    break;
                 default:
                     System.out.println("Invalid command, please try again");
             }
         }
     }
+
 
     private static void downloadStudentsExcel() {
         System.out.println("Please input the location of the file");
@@ -183,6 +191,12 @@ public class StudentDemo implements Commands, UserCommands {
                 case PRINT_ALL_STUDENTS:
                     studentStorage.print();
                     break;
+                case DOWNLOAD_STUDENTS_EXCEL:
+                    downloadStudentsExcel();
+                    break;
+                case READING_FROM_EXCEL:
+                    readingFromExcel();
+                    break;
                 case PRINT_STUDENTS_COUNT:
                     System.out.println(studentStorage.getSize());
                     break;
@@ -192,12 +206,19 @@ public class StudentDemo implements Commands, UserCommands {
                 case PRINT_LESSONS:
                     lessonStorage.print();
                     break;
-                case DOWNLOAD_STUDENTS_EXCEL:
-                    downloadStudentsExcel();
-                    break;
                 default:
                     System.out.println("Invalid command, please try again");
             }
+        }
+    }
+
+    private static void readingFromExcel() {
+        try {
+            System.out.println("Please input the filepath");
+            String fileLocation = scanner.nextLine();
+            studentStorage.readfromExcel(fileLocation);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -313,4 +334,6 @@ public class StudentDemo implements Commands, UserCommands {
         System.out.println("The lesson was created");
     }
 }
+
+
 
