@@ -1,13 +1,17 @@
 package storage;
 
 import model.Student;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.formula.atp.Switch;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class StudentStorage {
 
@@ -102,4 +106,68 @@ public class StudentStorage {
         workbook.write(new FileOutputStream(excelFile));
         System.out.println("Excel was created successfully");
     }
+
+    public void readfromExcel(String fileLocation) throws IOException {
+        FileInputStream file = new FileInputStream(new File(fileLocation));
+        Workbook workbook = new XSSFWorkbook(file);
+        Sheet sheet = workbook.getSheetAt(0);
+        Map<Integer, List<String>> data = new HashMap<>();
+        int i = 0;
+        for (Row row : sheet) {
+            data.put(i, new ArrayList<String>());
+            for (Cell cell : row) {
+                switch (cell.getCellType()) {
+                    case STRING:
+                        data.get(new Integer(i)).add(cell.getRichStringCellValue().getString());
+                        break;
+                    case NUMERIC:
+                        if (DateUtil.isCellDateFormatted(cell)) {
+                            data.get(i).add(cell.getDateCellValue() + " ");
+                        } else {
+                            data.get(i).add(cell.getNumericCellValue() + "");
+                        }
+                        break;
+                    case BOOLEAN:
+                        data.get(i).add(cell.getBooleanCellValue() + "");
+                        break;
+                    case FORMULA:
+                        data.get(i).add(cell.getCellFormula() + "");
+                        break;
+                    default:
+                        data.get(new Integer(i)).add(" ");
+                }
+            }
+            i++;
+        }
+        for (Map.Entry<Integer, List<String>> integerListEntry : data.entrySet()) {
+            System.out.println(integerListEntry);
+        }
+    }
 }
+
+//        FileInputStream file = new FileInputStream(new File(fileLocation));
+//        Workbook workbook = new HSSFWorkbook(file);
+//        Sheet sheet = workbook.getSheetAt(0);
+//        int rowNum = sheet.getLastRowNum();
+//        int cellNum = sheet.getRow(1).getLastCellNum();
+//        for (int i = 0; i < rowNum; i++) {
+//            Row row = sheet.getRow(i);
+//            for (int j = 0; j < cellNum; j++) {
+//                Cell cell = row.getCell(j);
+//                switch (cell.getCellType()) {
+//                    case _NONE:
+//                        break;
+//                    case NUMERIC:
+//                        System.out.println(cell.getStringCellValue());
+//                        break;
+//                    case BOOLEAN:
+//                        System.out.println(cell.getBooleanCellValue());
+//                        break;
+//                    case STRING:
+//                        System.out.println(cell.getStringCellValue());
+//                        break;
+//                }
+//            }
+//            System.out.println();
+//        }
+
