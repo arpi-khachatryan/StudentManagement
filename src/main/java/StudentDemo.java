@@ -159,9 +159,9 @@ public class StudentDemo implements Commands, UserCommands {
 
 
     private static void downloadStudentsExcel() {
-        System.out.println("Please input the location of the file");
-        String fileDir = scanner.nextLine();
         try {
+            System.out.println("Please input the location of the file");
+            String fileDir = scanner.nextLine();
             studentStorage.writeStudentsToExcel(fileDir);
         } catch (Exception e) {
             e.printStackTrace();
